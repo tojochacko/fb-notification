@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-hacknite",
+  "version": "0.0.0",
+  "description": "fb-notification ===============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tojochacko/fb-notification.git"
+  },
+  "keywords": [
+    "fb",
+    "notification"
+  ],
+  "author": "tojo.c",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/tojochacko/fb-notification/issues"
+  },
+  "dependencies": {
+    "request": "~2.27.0",
+    "express": "~3.3.8"
+  }
+}
