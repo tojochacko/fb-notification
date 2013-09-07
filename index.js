@@ -34,6 +34,9 @@ function sendNotifications(userId, message, fbendUrl)
     if(error == 'FAIL') {
       console.log('FB request failed '+result);
     }
+    else {
+      console.log(result);
+    }
   });
 
   function callfb(uid, callback) 
@@ -41,7 +44,7 @@ function sendNotifications(userId, message, fbendUrl)
     var request = require('request');
     request('http://localhost:8080/fbid?id='+uid, function(error, response, body) {
       if(!error && response.statusCode == 200) {
-        callback(null, response);
+        callback(null, body);
       }
       else if(error) {
         callback('FAIL', uid);
