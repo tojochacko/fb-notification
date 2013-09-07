@@ -48,7 +48,7 @@ function sendNotifications(fbUserIdArr, message, fbhref, fbAccessToken)
           //{ error: { message: 'Unsupported post request.',
           //type: 'GraphMethodException',
           //code: 100 } }
-          fbrespJson.error.fbuid = uid;
+          fbrespJson.error.fbuid = fbuid;
           callback('FAIL', fbrespJson.error);
         }
         else if(!chkErrorCondition) {
