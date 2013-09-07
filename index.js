@@ -1,3 +1,4 @@
+var noofloops = 100;
 var express = require('express');
 var app = express();
 
@@ -6,32 +7,27 @@ app.use(express.bodyParser());
 
 //api end point which apoorv will call
 app.post('/notify', function(request, response) {
+  response.send('fail');
   var jsonObj = request.body;
   for(var i = 0;l=jsonObj.length,i<l;i++) {
-    var userId = jsonObj[i].userid;
+    var userId = jsonObj[i].user_ids;
     var message = jsonObj[i].message;
-    var fbendUrl = jsonObj[i].url;
+    var fbhref = jsonObj[i].href;
+    var fbAccessToken = jsonObj[i].access_token;
   }
-  //console.log(userId);
-  //console.log(message);
-  sendNotifications(userId, message, fbendUrl);
+  sendNotifications(userId, message, fbhref, fbAccessToken);
   response.send('Job Initiated');
-});
-
-//test url for imitating fb calls
-app.get('/fbid', function(request, response) {
-  setTimeout(function() {}, 2000);
-  response.send('success');
 });
 
 app.listen(8080);
 console.log('Listening on port 8080');
 
-function sendNotifications(userId, message, fbendUrl)
+function sendNotifications(userId, message, fbhref, fbAccessToken)
 {
   var async = require('async'); 
-  async.mapLimit(userId, 50, callfb, function(error, result) {
-    if(error == 'FAIL') {
+  async.mapLimit(userId, noofloops, notifyFB, function(error, result) {
+    if(error) {
+      //write to a log file
       console.log('FB request failed '+result);
     }
     else {
@@ -39,17 +35,22 @@ function sendNotifications(userId, message, fbendUrl)
     }
   });
 
-  function callfb(uid, callback) 
+  function notifyFB(uid, callback) 
   {
     var request = require('request');
-    request('http://localhost:8080/fbid?id='+uid, function(error, response, body) {
-      if(!error && response.statusCode == 200) {
-        callback(null, body);
-      }
-      else if(error) {
-        callback('FAIL', uid);
-      }
-    });
+    var fburl = 'https://graph.facebook.com/'+uid+'/notifications?access_token='+fbAccessToken+'&template='+message+'&href='+fbhref;
+    request({
+      method: 'POST',
+      uri: fburl}, function(error, response, body) {
+        fbrespJson = JSON.parse(body);
+        chkErrorCondition = fbrespJson.hasOwnProperty('error');
+        if(chkErrorCondition) {
+          callback('FAIL', uid);
+        }
+        else if(!chkErrorCondition) {
+          callback(null, body);
+        }
+      });
   }
 }
 
