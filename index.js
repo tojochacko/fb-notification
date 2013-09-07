@@ -5,31 +5,21 @@ var app = express();
 app.use(express.bodyParser());
 
 app.post('/notify', function(request, response) {
-  console.log(request.body);
+  //jsonObj = [{userid:{1,2,4}, message:'Hi there'}]
+  var jsonObj = request.body;
+  for(var i = 0;l=jsonObj.length,i<l;i++) {
+    var userId = jsonObj[i].userid;
+    var message = jsonObj[i].message;
+    var fbendUrl = jsonObj[i].url;
+  }
+  console.log(userId);
+  console.log(message);
+  sendNotifications();
   response.send('success');
 });
 
 app.listen(8080);
 console.log('Listening on port 8080');
-
-/*var http = require('http');
-
-http.createServer(function (request, response) {
-  console.log(request.url); 
-  if(request.url == '/notify' && request.method == 'POST') {
-    console.log(request.body); 
-    //how do i parse the post body
-    //sendNotifications()
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.end('Hello Tojo, how do you do!\n');
-  }
-  else {
-    response.writeHead(404, {"Content-Type": "text/plain"});
-    response.write("404 Not Found\n");
-    response.end();
-  }
-}).listen(8080);
-*/
 
 function sendNotifications()
 {
