@@ -7,7 +7,6 @@ app.use(express.bodyParser());
 
 //api end point which apoorv will call
 app.post('/notify', function(request, response) {
-  response.send('fail');
   var jsonObj = request.body;
   for(var i = 0;l=jsonObj.length,i<l;i++) {
     var fbUserIdArr = jsonObj[i].user_ids;
