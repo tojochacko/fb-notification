@@ -1,4 +1,4 @@
-var noofloops = 100;
+var NOOFLOOPS = 100;
 var express = require('express');
 var app = express();
 
@@ -24,7 +24,7 @@ console.log('Listening on port 8080');
 function sendNotifications(fbUserIdArr, message, fbhref, fbAccessToken)
 {
   var async = require('async'); 
-  async.mapLimit(fbUserIdArr, noofloops, notifyFB, function(error, result) {
+  async.mapLimit(fbUserIdArr, NOOFLOOPS, notifyFB, function(error, result) {
     if(error) {
       writeErrorLog(JSON.stringify(result));
     }
